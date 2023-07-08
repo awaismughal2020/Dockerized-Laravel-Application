@@ -1,66 +1,89 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Dockerized Laravel Application
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+This repository provides a Dockerized setup for running a Laravel application using PHP version 8.2 with phpMyAdmin and a local MySQL database.
 
-## About Laravel
+## Prerequisites
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+Make sure you have the following dependencies installed on your system:
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+- Docker: [Install Docker](https://docs.docker.com/get-docker/)
+- Docker Compose: [Install Docker Compose](https://docs.docker.com/compose/install/)
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## Getting Started
 
-## Learning Laravel
+Follow these steps to get the Dockerized Laravel application up and running:
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+1. Clone this repository to your local machine:
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+   ```
+   git clone <repository-url>
+   ```
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 2000 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+2. Navigate to the cloned directory:
 
-## Laravel Sponsors
+   ```
+   cd <repository-directory>
+   ```
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+3. Build and start the Docker containers:
 
-### Premium Partners
+   ```
+   docker-compose up -d --build
+   ```
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
+   This command will build the Docker image for the Laravel application, create and start the containers for the application, the database, and phpMyAdmin.
 
-## Contributing
+4. Wait for the containers to start up. You can monitor the logs using the following command:
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+   ```
+   docker-compose logs -f
+   ```
 
-## Code of Conduct
+   You should see the logs for the containers appearing in the terminal. Once you see messages indicating that the Laravel application and phpMyAdmin are ready, you can proceed to the next step.
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+5. Access the Laravel application:
 
-## Security Vulnerabilities
+   Open a web browser and visit [http://localhost:8333](http://localhost:8333) to access the Laravel application.
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+6. Access phpMyAdmin:
 
-## License
+   Open a web browser and visit [http://localhost:8383](http://localhost:8383) to access phpMyAdmin. Use the following credentials to log in:
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+    - **Server:** `database`
+    - **Username:** `laravel`
+    - **Password:** `secret`
+
+   From phpMyAdmin, you can manage the local MySQL database used by the Laravel application.
+
+## Customization
+
+You can customize the Docker setup according to your specific needs. Here are a few areas you may consider modifying:
+
+- **Application Code:** Place your Laravel application code in the root directory of this repository. You can replace the existing code with your own or modify it as required.
+
+- **Database Configuration:** Update the MySQL database configuration in the Laravel application code to connect to the local database. The default configuration can be found in the `.env` file within your Laravel application.
+
+- **Ports:** If the default ports `8000` and `8080` are already in use on your system, you can modify the `docker-compose.yml` file to use different ports for the Laravel application and phpMyAdmin.
+
+- **PHP Version:** If you encounter issues with the PHP version specified in the `Dockerfile`, you can modify it to use a different PHP version that is compatible with your application.
+
+- **Additional Dependencies:** If your Laravel application requires additional PHP extensions or other dependencies, you can add the necessary installation commands to the `Dockerfile` before the `composer install` command.
+
+## Cleaning Up
+
+To stop and remove the Docker containers, run the following command from the root directory of this repository:
+
+```
+docker-compose down
+```
+
+This will stop and remove the containers, but your application code and database data will be preserved.
+
+
+## IMPORTANT
+
+Feel free to modify and use this Dockerized Laravel application setup according to your needs.
+
+If you have any questions or encounter any issues, please don't hesitate to contact at [awaiskhanmughal1995@gmail.com](mailto:awaiskhanmughal1995@gmail.com).
+
+Enjoy your Dockerized Laravel application!
